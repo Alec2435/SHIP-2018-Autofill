@@ -20,10 +20,6 @@ namespace SHIPAutofill
 
             Response.Redirect("~/Search.aspx?q=" + q);
         }
-        public string getDatasourceAlias()
-        { //public function to retrive datasource
-
-            return "nike";
 
         }
     }
