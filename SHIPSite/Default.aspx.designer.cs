@@ -13,6 +13,15 @@ namespace SHIPAutofill {
     public partial class CompletionPage {
         
         /// <summary>
+        /// ddldb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddldb;
+        
+        /// <summary>
         /// SearchText control.
         /// </summary>
         /// <remarks>
@@ -29,5 +38,14 @@ namespace SHIPAutofill {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::AjaxControlToolkit.AutoCompleteExtender autoComplete1;
+        
+        /// <summary>
+        /// TextBox1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
     }
 }

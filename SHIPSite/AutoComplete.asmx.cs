@@ -130,7 +130,7 @@ namespace SHIPAutofill
                     string b = "";
                     try
                     {
-                        b = reader.GetString(2);
+                        b = " " + reader.GetString(2);
                     }
                     catch (Exception ex)
                     {

@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+﻿using System.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,20 +6,47 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
+
 namespace SHIPAutofill
 {
     public partial class CompletionPage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            LoadDBs();
         }
-        protected void Submit_Click(object sender, EventArgs e)
-        {
-           string q = String.Join(" ",SearchText.Text.Replace("(", "").Replace(")", "").Split(' ').Take(15));
 
-            Response.Redirect("~/Search.aspx?q=" + q);
-        }
+        private void LoadDBs()
+        {
+
+            DataTable dbs = new DataTable();
+            System.Diagnostics.Debug.WriteLine("Code is really hard mkayy");
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SHIPServer"].ToString()))
+            {
+
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter("getMasterDB", con);
+                    adapter.SelectCommand.CommandType = CommandType.StoredProcedure;
+
+                    adapter.Fill(dbs);
+
+                    ddldb.DataSource = dbs;
+                    ddldb.DataTextField = "propName";
+                    ddldb.DataValueField = "dbName";
+                    ddldb.DataBind();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                }
+
+            }
+
+            // Add the initial item - you can add this even if the options from the
+            // db were not successfully loaded
+            //ddldb.Items.Insert(0, new ListItem("<Select Subject>", "0"));
 
         }
     }

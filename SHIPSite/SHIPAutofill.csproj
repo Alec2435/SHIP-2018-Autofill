@@ -430,7 +430,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="Default - Copy.aspx.cs">
       <DependentUpon>Default - Copy.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

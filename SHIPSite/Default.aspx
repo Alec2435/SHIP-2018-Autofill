@@ -22,9 +22,14 @@
         }
     </style>
 
+
     <div aria-orientation="vertical" style="height: 60%; text-align: center; margin: 0 auto; clip: rect(auto, 0px, auto, auto);">
-                <div style="position: relative; top: 50%; display:inline-flex">
-                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" CssClass="padding" TextMode="MultiLine" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90vw; Height:80vh;">Search...</asp:TextBox>
+        <h1>Autofill Box</h1>
+                <asp:DropDownList ID="ddldb" runat="server" AppendDataBoundItems="true">
+                     <asp:ListItem Text="<Select Subject>" Value="0" />
+                </asp:DropDownList>
+                <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
+                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box; ">Search...</asp:TextBox>
                     <ajaxToolkit:AutoCompleteExtender 
                         runat="server" 
                         ID="autoComplete1" 
@@ -33,14 +38,68 @@
                         ServicePath="AutoComplete.asmx"
                         MinimumPrefixLength="1" 
                         CompletionInterval="250"
+                        OnClientItemSelected="autoCompleteEx_ItemSelected"
                         EnableCaching="true"
+                        DelimiterCharacters=".,!?"
                         CompletionSetCount="10"                   
                         ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
                     </ajaxToolkit:AutoCompleteExtender>
 
                 </div>
-            </div>
+          <h1>Text Area</h1>
+                <div style="position: relative; top: 50%; display:inline-flex; display: block; ">
+                    <asp:TextBox ID="TextBox1" runat="server" spellcheck="true" CssClass="padding" TextMode="MultiLine" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box;  Height:40vh;"></asp:TextBox>
 
+
+                </div>
+            
+        <button type="button" id="save">Save</button>
+        <button type="button" id="Copy" onclick="copy()">Copy</button>
+
+            </div>
+    <script type="text/javascript">
+        // Listen for the event.
+      //  document.getElementById("autoComplete1").addEventListener('itemSelected', function (e) {
+          //  var txtVal = $('#MainContent_TextBox1').val() + $('#MainContent_SearchText').val();
+         //   console.log(txtVal);
+        //      $('#MainContent_TextBox1').val(txtVal);
+     //   }, false);
+         function autoCompleteEx_ItemSelected(sender, args) {
+               var n1 = document.getElementById('MainContent_SearchText');
+               var n2 = document.getElementById('MainContent_TextBox1');
+             n2.value = n2.value + n1.value;
+             n1.value = "";
+             console.log("I Ran!!!");
+        }
+        function download(data, filename, type) {
+            var file = new Blob([data], {type: type});
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                        url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function() {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);  
+                }, 0); 
+            }
+        }
+        function copy() {
+            var copyText = document.getElementById("MainContent_TextBox1");
+            copyText.select();
+            document.execCommand("copy");
+        }
+        $(document).ready(function() {
+            $("#save").click(function () {
+                 var n2 = document.getElementById('MainContent_TextBox1');
+                download(n2.value, "Typed_Text.txt", "txt");
+    }); 
+});
+    </script>
 </asp:Content>
 
 
