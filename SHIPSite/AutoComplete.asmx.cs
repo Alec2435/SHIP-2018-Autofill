@@ -25,8 +25,9 @@ namespace SHIPAutofill
 
         [WebMethod]
         [ScriptMethod]
-        public string[] GetCompletionList(string prefixText, int count)
+        public string[] GetCompletionList(string prefixText, int count, string contextKey)
         {
+            System.Diagnostics.Debug.WriteLine(contextKey);
             //Converts the string to lowercase for easier processing
             prefixText = prefixText.ToLower();
             //Checks the string for any punctuation and then removes everything before the last punctuation mark
@@ -103,7 +104,7 @@ namespace SHIPAutofill
             conn.Open();
 
             //Generates the query for the stored procedure
-            SqlCommand cmd = new SqlCommand("exp_sp_autofill_andtestten", conn);
+            SqlCommand cmd = new SqlCommand(contextKey + "_sp_autofill", conn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             //Adds blank spaces until we reach the stored prcedure's requisit number of parameters

@@ -25,11 +25,10 @@
 
     <div aria-orientation="vertical" style="height: 60%; text-align: center; margin: 0 auto; clip: rect(auto, 0px, auto, auto);">
         <h1>Autofill Box</h1>
-                <asp:DropDownList ID="ddldb" runat="server" AppendDataBoundItems="true">
-                     <asp:ListItem Text="<Select Subject>" Value="0" />
+                <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" style="margin-bottom:10px;" AppendDataBoundItems="true">
                 </asp:DropDownList>
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
-                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box; ">Search...</asp:TextBox>
+                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box; " onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
                     <ajaxToolkit:AutoCompleteExtender 
                         runat="server" 
                         ID="autoComplete1" 
@@ -40,6 +39,7 @@
                         CompletionInterval="250"
                         OnClientItemSelected="autoCompleteEx_ItemSelected"
                         EnableCaching="true"
+                        useContextKey="true"
                         DelimiterCharacters=".,!?"
                         CompletionSetCount="10"                   
                         ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
@@ -47,14 +47,14 @@
 
                 </div>
           <h1>Text Area</h1>
-                <div style="position: relative; top: 50%; display:inline-flex; display: block; ">
+                <div style="position: relative; top: 50%; display:inline-flex; display: block; margin-bottom:10px;">
                     <asp:TextBox ID="TextBox1" runat="server" spellcheck="true" CssClass="padding" TextMode="MultiLine" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box;  Height:40vh;"></asp:TextBox>
 
 
                 </div>
             
-        <button type="button" id="save">Save</button>
-        <button type="button" id="Copy" onclick="copy()">Copy</button>
+        <button type="button" class="btn btn-default btn-lg" id="save">Save</button>
+        <button type="button" class="btn btn-default btn-lg" id="Copy" onclick="copy()">Copy</button>
 
             </div>
     <script type="text/javascript">
@@ -100,6 +100,16 @@
     }); 
 });
     </script>
+    <script type = "text/javascript">
+    function SetContextKey() {
+        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value);
+        }
+        $(".btn").click(function(){
+    $("button").addClass("active");
+    $(".rest").addClass("active");
+    $(".icon").addClass("active");
+});
+</script>
 </asp:Content>
 
 

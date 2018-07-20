@@ -16,7 +16,7 @@ namespace SHIPAutofill
             SqlDataAdapter da = new SqlDataAdapter();
             DataSet ds = new DataSet();
 
-            cn.ConnectionString = @"Data Source=NEPTUNE\SQLEXPRESS;Integrated Security=False;User ID=aspuser;Password=test;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            cn.ConnectionString = @"Data Source=tcp:129.6.187.148,49172;Integrated Security=False;User ID=aspuser;Password=test;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             try
             {
                 cn.Open();

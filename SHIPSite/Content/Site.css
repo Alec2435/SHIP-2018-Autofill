@@ -45,3 +45,14 @@ input[type="select"] {
         padding: 0;
     }
 }
+.wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -86px;
+    margin-left: -89px;
+    text-align: center;
+}
+
+
+
