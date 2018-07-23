@@ -106,6 +106,10 @@
             } else {
                 taxValues.push(document.getElementById('MainContent_SearchText').value);
                 SetContextKey();
+                if (taxValues.length >= 3) {
+                    document.getElementById('MainContent_TaxonomyCheckbox').checked = false;
+                    document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
+                }
                 var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
                 $('#MainContent_ddldb').before(alertBoxLast);
                 for (var i = taxValues.length - 2; i >= 0; i--) {
@@ -118,12 +122,14 @@
 
         }
         function closeAllAlerts() {
+            document.getElementById('MainContent_TaxonomyCheckbox').disabled = false;
             for (var i = 0;i< taxValues.length; i++) {
                     document.getElementById('tax' + i).parentNode.removeChild(document.getElementById('tax' + i));
             }
             taxValues = [];
         }
         function updateAlerts() {
+            document.getElementById('MainContent_TaxonomyCheckbox').disabled = false;
             document.getElementById('tax' + (taxValues.length - 1)).parentNode.removeChild(document.getElementById('tax' + (taxValues.length - 1)));
             taxValues.pop();
             if (taxValues.length < 1) {

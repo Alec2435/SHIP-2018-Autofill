@@ -32,7 +32,7 @@ namespace SHIPAutofill
             int number_of_levels = taxValues.Length - 1;
             // Further splits taxonomic levels into individual search terms
             string[][] taxLvls = new string[3][];
-            for(int i = 1; i < 5; i++)
+            for(int i = 1; i < 4; i++)
             {
                 if(i < number_of_levels)
                 {
