@@ -29,6 +29,7 @@ namespace SHIPAutofill
         {
             // Splits contextKey into database and taxonomic levels
             string[] taxValues = contextKey.Split('*');
+            System.Diagnostics.Debug.WriteLine("taxValues: " + String.Join(" ",taxValues));
             int number_of_levels = taxValues.Length - 1;
             // Further splits taxonomic levels into individual search terms
             string[][] taxLvls = new string[3][];
@@ -56,7 +57,6 @@ namespace SHIPAutofill
                 }
             }
 
-            System.Diagnostics.Debug.WriteLine(contextKey);
             //Converts the string to lowercase for easier processing
             prefixText = prefixText.ToLower();
             //Checks the string for any punctuation and then removes everything before the last punctuation mark
@@ -133,15 +133,18 @@ namespace SHIPAutofill
             conn.Open();
 
             //Generates the query for the stored procedure
-            SqlCommand cmd = new SqlCommand(taxValues[0] + "_sp_autofill", conn);
+            SqlCommand cmd = new SqlCommand(taxValues[0] + "_tx_sp_autofill", conn);
             cmd.CommandType = CommandType.StoredProcedure;
             //Adds blank spaces until we reach the stored prcedure's requisit number of parameters
-            while (mainText.Count() < 10)
+            while (mainText.Count() < 5)
             {
                 mainText.Add(" ");
             }
             int textLength = mainText.Count();
-
+            foreach (string[] level in taxLvls)
+            {
+                System.Diagnostics.Debug.WriteLine("level: " + String.Join(" ", level));
+            }
             //Adds the parameters to the command
             cmd.Parameters.AddWithValue("@number_of_levels", number_of_levels);
             for (int i = 1; i < 6; i++)
