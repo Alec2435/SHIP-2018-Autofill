@@ -27,6 +27,35 @@ namespace SHIPAutofill
         [ScriptMethod]
         public string[] GetCompletionList(string prefixText, int count, string contextKey)
         {
+            // Splits contextKey into database and taxonomic levels
+            string[] taxValues = contextKey.Split('*');
+            int number_of_levels = taxValues.Length - 1;
+            // Further splits taxonomic levels into individual search terms
+            string[][] taxLvls = new string[3][];
+            for(int i = 1; i < 5; i++)
+            {
+                if(i < number_of_levels)
+                {
+                    string[] temp = taxValues[i].Split(' ');
+                    Array.Resize(ref temp, 5);
+                    taxLvls[i - 1] = temp;
+                }
+                else
+                {
+                    taxLvls[i - 1] = new string[5];
+                }
+                
+            }
+            //Puts placeholders in for missing terms
+            foreach(string[] level in taxLvls)
+            {
+                for(int i = 0; i < 5; i++)
+                {
+                    if (level[i] == null)
+                        level[i] = "";
+                }
+            }
+
             System.Diagnostics.Debug.WriteLine(contextKey);
             //Converts the string to lowercase for easier processing
             prefixText = prefixText.ToLower();
@@ -104,9 +133,8 @@ namespace SHIPAutofill
             conn.Open();
 
             //Generates the query for the stored procedure
-            SqlCommand cmd = new SqlCommand(contextKey + "_sp_autofill", conn);
+            SqlCommand cmd = new SqlCommand(taxValues[0] + "_sp_autofill", conn);
             cmd.CommandType = CommandType.StoredProcedure;
-
             //Adds blank spaces until we reach the stored prcedure's requisit number of parameters
             while (mainText.Count() < 10)
             {
@@ -115,9 +143,16 @@ namespace SHIPAutofill
             int textLength = mainText.Count();
 
             //Adds the parameters to the command
-            for (int i = 1; i < 11; i++)
+            cmd.Parameters.AddWithValue("@number_of_levels", number_of_levels);
+            for (int i = 1; i < 6; i++)
             {
-                cmd.Parameters.AddWithValue("@param" + i, mainText[textLength - 11 + i]);
+                //Taxonomy Level 1
+                cmd.Parameters.AddWithValue("@param" + i, taxLvls[0][i - 1]);
+                //Level 2
+                cmd.Parameters.AddWithValue("@param" + (i + 5), taxLvls[1][i - 1]);
+                //etc.
+                cmd.Parameters.AddWithValue("@param" + (i + 10), taxLvls[2][i - 1]);
+                cmd.Parameters.AddWithValue("@param" + (i + 15), mainText[textLength - 6 + i]);
             }
 
             //Carefully tries to read the lines that the database returns 

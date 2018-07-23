@@ -20,15 +20,46 @@
             padding-bottom:.5em;
             font-size:14px;
         }
+        .alert {
+            padding: 20px;
+            background-color: #ff9800;
+            color: white;
+            align-items: center;
+            justify-content: center;
+        }
+
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+    transition: 0.3s;
+    }
+
+    .closebtn:hover {
+        color: black;
+    }
+    .closeall{
+        color: white;
+        float: right;
+        cursor: pointer;
+        background-color: red;
+        position:relative;
+        top:50%;
+    }
     </style>
 
 
-    <div aria-orientation="vertical" style="height: 60%; text-align: center; margin: 0 auto; clip: rect(auto, 0px, auto, auto);">
+    <div ID="maindiv" aria-orientation="vertical" style="height: 60%; text-align: center; margin: 0 auto; clip: rect(auto, 0px, auto, auto);">
         <h1>Autofill Box</h1>
-                <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" style="margin-bottom:10px;" AppendDataBoundItems="true">
+            <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" style="margin-bottom:10px;" AppendDataBoundItems="true">
                 </asp:DropDownList>
+                <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
-                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box; " onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
+                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; " onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..." Width="1090px"></asp:TextBox>
                     <ajaxToolkit:AutoCompleteExtender 
                         runat="server" 
                         ID="autoComplete1" 
@@ -48,7 +79,7 @@
                 </div>
           <h1>Text Area</h1>
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; margin-bottom:10px;">
-                    <asp:TextBox ID="TextBox1" runat="server" spellcheck="true" CssClass="padding" TextMode="MultiLine" AutoPostback="False" OnClick="searchText_click()" Style ="display: inline; Width:90%;box-sizing:border-box;  Height:40vh;"></asp:TextBox>
+                    <asp:TextBox ID="TextBox1" runat="server" spellcheck="true" CssClass="padding" TextMode="MultiLine" AutoPostback="False"  Style ="display: inline; Width:90%;box-sizing:border-box;  Height:40vh;"></asp:TextBox>
 
 
                 </div>
@@ -64,12 +95,41 @@
          //   console.log(txtVal);
         //      $('#MainContent_TextBox1').val(txtVal);
      //   }, false);
-         function autoCompleteEx_ItemSelected(sender, args) {
-               var n1 = document.getElementById('MainContent_SearchText');
-               var n2 = document.getElementById('MainContent_TextBox1');
-             n2.value = n2.value + n1.value;
-             n1.value = "";
-             console.log("I Ran!!!");
+        var taxValues = [];
+        function autoCompleteEx_ItemSelected(sender, args) {
+            if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) {
+                var n1 = document.getElementById('MainContent_SearchText');
+                var n2 = document.getElementById('MainContent_TextBox1');
+
+                n2.value = n2.value + n1.value;
+                n1.value = "";
+            } else {
+                taxValues.push(document.getElementById('MainContent_SearchText').value);
+                SetContextKey();
+                var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
+                $('#MainContent_ddldb').before(alertBoxLast);
+                for (var i = taxValues.length - 2; i >= 0; i--) {
+                    document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
+                }
+                document.getElementById('MainContent_SearchText').value = "";
+
+            }
+             
+
+        }
+        function closeAllAlerts() {
+            for (var i = 0;i< taxValues.length; i++) {
+                    document.getElementById('tax' + i).parentNode.removeChild(document.getElementById('tax' + i));
+            }
+            taxValues = [];
+        }
+        function updateAlerts() {
+            document.getElementById('tax' + (taxValues.length - 1)).parentNode.removeChild(document.getElementById('tax' + (taxValues.length - 1)));
+            taxValues.pop();
+            if (taxValues.length < 1) {
+                return;
+            }
+            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='"+(taxValues.length-1)+"-btn'>Close all</button><strong>Taxonomy:</strong> " + taxValues[taxValues.length-1] + "</div>";
         }
         function download(data, filename, type) {
             var file = new Blob([data], {type: type});
@@ -102,12 +162,14 @@
     </script>
     <script type = "text/javascript">
     function SetContextKey() {
-        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value);
-        }
-        $(".btn").click(function(){
-    $("button").addClass("active");
-    $(".rest").addClass("active");
-    $(".icon").addClass("active");
+        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value+"*"+taxValues.join("*"));
+    }
+
+
+    $(".btn").click(function(){
+        $("button").addClass("active");
+        $(".rest").addClass("active");
+        $(".icon").addClass("active");
 });
 </script>
 </asp:Content>

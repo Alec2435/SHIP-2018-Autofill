@@ -49,5 +49,11 @@ namespace SHIPAutofill
             //ddldb.Items.Insert(0, new ListItem("<Select Subject>", "0"));
 
         }
+
+
+        protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
