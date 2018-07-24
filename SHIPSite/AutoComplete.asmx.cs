@@ -35,9 +35,10 @@ namespace SHIPAutofill
             string[][] taxLvls = new string[3][];
             for(int i = 1; i < 4; i++)
             {
-                if(i < number_of_levels)
+                if(i < taxValues.Length)
                 {
-                    string[] temp = taxValues[i].Split(' ');
+
+                    string[] temp = taxValues[i].Trim().Split(' ');
                     Array.Resize(ref temp, 5);
                     taxLvls[i - 1] = temp;
                 }
