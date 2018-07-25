@@ -26,7 +26,15 @@
             align-items: center;
             justify-content: center;
         }
-
+        .closeall{
+        color: white;
+        float: right;
+        cursor: pointer;
+        background-color: red;
+        position:relative;
+        top:50%;
+        transform: translateY(-15%);
+    }
     .closebtn {
         margin-left: 15px;
         color: white;
@@ -41,15 +49,7 @@
     .closebtn:hover {
         color: black;
     }
-    .closeall{
-        color: white;
-        float: right;
-        cursor: pointer;
-        background-color: red;
-        position:relative;
-        top:50%;
-        transform: translateY(-15%);
-    }
+
     </style>
 
 
@@ -139,7 +139,7 @@
             if (taxValues.length < 1) {
                 return;
             }
-            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='"+(taxValues.length-1)+"-btn'>Close all</button><strong>Taxonomy:</strong> " + taxValues[taxValues.length-1] + "</div>";
+            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length-1] + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
         }
         function download(data, filename, type) {
             var file = new Blob([data], {type: type});
@@ -171,6 +171,16 @@
 });
     </script>
     <script type = "text/javascript">
+        $(document).ready(function() {
+   
+    $("#<%= SearchText.ClientID %>").bind("keydown", function(e) {
+        if (e.keyCode==13){
+            autoCompleteEx_ItemSelected(null, null)
+            return false;
+        }
+    });
+
+        });    
     function SetContextKey() {
         $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value+"*"+taxValues.join("*"));
     }
