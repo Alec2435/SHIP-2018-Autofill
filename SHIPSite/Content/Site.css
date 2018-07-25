@@ -113,8 +113,8 @@ textarea {
         margin-right: 15px;
         border: solid 2px rgba(0, 0, 0, 0.42);
         border-radius: 2px;
-        width: 14px;
-        height: 14px;
+        width: 1.2em;
+        height: 1.2em;
         vertical-align: -4px;
         transition: border-color 0.5s, background-color 0.5s;
     }
@@ -146,10 +146,10 @@ textarea {
         content: "";
         display: inline-block;
         position: absolute;
-        top: 0;
-        left: 0;
+        top: .10em;
+        left: .06em;
         width: 5px;
-        height: 10px;
+        height: .85em;
         border: solid 2px transparent;
         border-left: none;
         border-top: none;

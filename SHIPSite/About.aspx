@@ -2,6 +2,6 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
-    <h3>Your application description page.</h3>
-    <p>Use this area to provide additional information.</p>
+    <h3>NIST Autofill Site</h3>
+    <p>This webservice is intended to assist in the writing of research papers.</p>
 </asp:Content>

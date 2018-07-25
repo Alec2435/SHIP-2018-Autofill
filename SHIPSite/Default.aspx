@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Search"Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SHIPAutofill.CompletionPage" MasterPageFile="~/Site.Master" %>
+﻿<%@ Page Title="NIST Autofill"Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SHIPAutofill.CompletionPage" MasterPageFile="~/Site.Master" %>
 <%@ Register Assembly="AjaxControlToolkit"  Namespace="AjaxControlToolkit" TagPrefix="ajaxTookit" %>
 <asp:Content ID="Content1" runat="server" contentplaceholderid="MainContent">
  <style>
@@ -49,13 +49,21 @@
     .closebtn:hover {
         color: black;
     }
+    .mydropdownlist {
+        color: black;
+        font-size: 18px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: white;
+        margin-bottom:10px;
+    }
 
     </style>
 
 
     <div ID="maindiv" aria-orientation="vertical" style="height: 60%; text-align: center; margin: 0 auto; clip: rect(auto, 0px, auto, auto);">
         <h1>Autofill Box</h1>
-            <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" style="margin-bottom:10px;" AppendDataBoundItems="true">
+            <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true">
                 </asp:DropDownList>
                 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
@@ -68,7 +76,7 @@
                             ServiceMethod="GetCompletionList"
                             ServicePath="AutoComplete.asmx"
                             MinimumPrefixLength="1" 
-                            CompletionInterval="250"
+                            CompletionInterval="100"
                             OnClientItemSelected="autoCompleteEx_ItemSelected"
                             EnableCaching="false"
                             useContextKey="true"
