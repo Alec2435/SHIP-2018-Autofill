@@ -47,6 +47,7 @@
         float: right;
         cursor: pointer;
         background-color: red;
+        text-align: center;
         position:relative;
         top:50%;
     }
@@ -67,9 +68,9 @@
                         ServiceMethod="GetCompletionList"
                         ServicePath="AutoComplete.asmx"
                         MinimumPrefixLength="1" 
-                        CompletionInterval="250"
+                        CompletionInterval="100"
                         OnClientItemSelected="autoCompleteEx_ItemSelected"
-                        EnableCaching="true"
+                        EnableCaching="false"
                         useContextKey="true"
                         DelimiterCharacters=".,!?"
                         CompletionSetCount="10"                   
