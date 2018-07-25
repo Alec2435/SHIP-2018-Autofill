@@ -27,6 +27,7 @@ namespace SHIPAutofill
         [ScriptMethod]
         public string[] GetCompletionList(string prefixText, int count, string contextKey)
         {
+
             // Splits contextKey into database and taxonomic levels
             string[] taxValues = contextKey.Split('*');
             System.Diagnostics.Debug.WriteLine("taxValues: " + String.Join(" ",taxValues));
@@ -187,6 +188,7 @@ namespace SHIPAutofill
 
             //Return the results
             return ret.ToArray();
+            
         }
     }
 }
