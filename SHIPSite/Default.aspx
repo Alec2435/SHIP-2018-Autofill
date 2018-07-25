@@ -70,7 +70,7 @@
                             MinimumPrefixLength="1" 
                             CompletionInterval="250"
                             OnClientItemSelected="autoCompleteEx_ItemSelected"
-                            EnableCaching="true"
+                            EnableCaching="false"
                             useContextKey="true"
                             DelimiterCharacters=".,!?"
                             CompletionSetCount="10"                   
