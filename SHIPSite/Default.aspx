@@ -1,8 +1,7 @@
 ﻿<%@ Page Title="Search"Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SHIPAutofill.CompletionPage" MasterPageFile="~/Site.Master" %>
 <%@ Register Assembly="AjaxControlToolkit"  Namespace="AjaxControlToolkit" TagPrefix="ajaxTookit" %>
 <asp:Content ID="Content1" runat="server" contentplaceholderid="MainContent">
-
-    <style>
+ <style>
         .padding {padding:.5em; font-family:HelvLight; font-size:18px; width:500px;min-width:400px;}
         .padding:focus{ outline: none;}
         .SubmitButton{min-width:65px;}
@@ -49,6 +48,7 @@
         background-color: red;
         position:relative;
         top:50%;
+        transform: translateY(-15%);
     }
     </style>
 
@@ -57,28 +57,32 @@
         <h1>Autofill Box</h1>
             <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" style="margin-bottom:10px;" AppendDataBoundItems="true">
                 </asp:DropDownList>
-                <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
+                
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
-                    <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; " onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..." Width="1090px"></asp:TextBox>
-                    <ajaxToolkit:AutoCompleteExtender 
-                        runat="server" 
-                        ID="autoComplete1" 
-                        TargetControlID="SearchText"
-                        ServiceMethod="GetCompletionList"
-                        ServicePath="AutoComplete.asmx"
-                        MinimumPrefixLength="1" 
-                        CompletionInterval="250"
-                        OnClientItemSelected="autoCompleteEx_ItemSelected"
-                        EnableCaching="true"
-                        useContextKey="true"
-                        DelimiterCharacters=".,!?"
-                        CompletionSetCount="10"                   
-                        ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
-                    </ajaxToolkit:AutoCompleteExtender>
-
+                    <div style="float:left;">
+                        <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; " onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
+                        <ajaxToolkit:AutoCompleteExtender 
+                            runat="server" 
+                            ID="autoComplete1" 
+                            TargetControlID="SearchText"
+                            ServiceMethod="GetCompletionList"
+                            ServicePath="AutoComplete.asmx"
+                            MinimumPrefixLength="1" 
+                            CompletionInterval="250"
+                            OnClientItemSelected="autoCompleteEx_ItemSelected"
+                            EnableCaching="true"
+                            useContextKey="true"
+                            DelimiterCharacters=".,!?"
+                            CompletionSetCount="10"                   
+                            ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
+                        </ajaxToolkit:AutoCompleteExtender>
+                    </div>
+                    <div style="float:right; margin-right: 5vw; padding-top: 10px;" class="checkarea">
+                        <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
+                    </div>
                 </div>
           <h1>Text Area</h1>
-                <div style="position: relative; top: 50%; display:inline-flex; display: block; margin-bottom:10px;">
+                <div class="material-checkbox" style="position: relative; top: 50%; display:inline-flex; display: block; margin-bottom:10px;">
                     <asp:TextBox ID="TextBox1" runat="server" spellcheck="true" CssClass="padding" TextMode="MultiLine" AutoPostback="False"  Style ="display: inline; Width:90%;box-sizing:border-box;  Height:40vh;"></asp:TextBox>
 
 
@@ -176,7 +180,15 @@
         $("button").addClass("active");
         $(".rest").addClass("active");
         $(".icon").addClass("active");
-});
+        });
+        $("span").addClass("material-checkbox");
+        $("label").replaceWith("<span>Add Taxonomy Level</span>");
+        var widgetHTML = $('div.checkarea').html();
+            widgetHTML = widgetHTML
+               .replace(/<span title="Add result as a taxonomic search term instead of adding it to the text box" class="material-checkbox">/g, '<label class="material-checkbox">')
+               .replace(/<\/span>/g, '</label>');
+        $('div.checkarea').html(widgetHTML);
+
 </script>
 </asp:Content>
 
