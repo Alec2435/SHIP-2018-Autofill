@@ -66,6 +66,7 @@
             <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true">
                 </asp:DropDownList>
                     <div style="float:right; margin-right: 5vw; padding-top: 10px;" class="checkarea">
+                        <asp:Button ID="Button1" runat="server" Font-Italic="True" Font-Size="XX-Small" OnClientClick="addLastSnippet()" Text="Add Last Snippet as Taxonomy" />
                         <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
                     </div>
 
@@ -111,6 +112,7 @@
         //      $('#MainContent_TextBox1').val(txtVal);
      //   }, false);
         var taxValues = [];
+        var lastSnippet = "";
         function autoCompleteEx_ItemSelected(sender, args) {
             if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) {
                 var n1 = document.getElementById('MainContent_SearchText');
@@ -192,8 +194,14 @@
     });
 
         });    
-    function SetContextKey() {
-        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value+"*"+taxValues.join("*"));
+        function SetContextKey() {
+            if (document.getElementById('MainContent_TaxonomyCheckbox').checked) {
+                var check = "yes";
+            }
+            else {
+                var check = "no";
+            }
+        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value+"*"+check+"*"+taxValues.join("*"));
     }
 
 
