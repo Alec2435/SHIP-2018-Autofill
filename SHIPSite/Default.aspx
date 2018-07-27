@@ -68,7 +68,7 @@
                 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
                     <div style="float:left;">
-                        <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; " onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
+                        <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
                         <ajaxToolkit:AutoCompleteExtender 
                             runat="server" 
                             ID="autoComplete1" 
@@ -76,12 +76,15 @@
                             ServiceMethod="GetCompletionList"
                             ServicePath="AutoComplete.asmx"
                             MinimumPrefixLength="1" 
-                            CompletionInterval="100"
+                            CompletionInterval="500"
                             OnClientItemSelected="autoCompleteEx_ItemSelected"
                             EnableCaching="false"
                             useContextKey="true"
                             DelimiterCharacters=".,!?"
-                            CompletionSetCount="10"                   
+                            CompletionSetCount="10"
+                            OnClientPopulated="OnClientCompleted"
+                            OnClientHiding="OnClientCompleted"
+                            OnClientPopulating="OnClientPopulating"
                             ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
                         </ajaxToolkit:AutoCompleteExtender>
                     </div>
@@ -208,6 +211,16 @@
         $('div.checkarea').html(widgetHTML);
 
 </script>
+<script type="text/javascript">
+function OnClientPopulating(sender, e) {
+    $('#MainContent_SearchText').css('background', 'none');
+    sender._element.className = "loading";
+}
+function OnClientCompleted(sender, e) {
+    sender._element.className = "";
+}
+</script>
+
 </asp:Content>
 
 

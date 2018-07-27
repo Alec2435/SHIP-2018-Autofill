@@ -256,6 +256,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <None Include="Content\Site.scss" />
     <Content Include="Content\Site.css" />
+    <Content Include="Content\spin.gif" />
     <Content Include="Default - Copy.aspx" />
     <Content Include="Account\Web.config" />
     <Content Include="ApplicationInsights.config">
