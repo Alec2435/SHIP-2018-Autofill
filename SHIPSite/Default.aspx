@@ -65,7 +65,10 @@
         <h1>Autofill Box</h1>
             <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true">
                 </asp:DropDownList>
-                
+                    <div style="float:right; margin-right: 5vw; padding-top: 10px;" class="checkarea">
+                        <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
+                    </div>
+
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
                     <div style="float:left;">
                         <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
@@ -87,9 +90,6 @@
                             OnClientPopulating="OnClientPopulating"
                             ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
                         </ajaxToolkit:AutoCompleteExtender>
-                    </div>
-                    <div style="float:right; margin-right: 5vw; padding-top: 10px;" class="checkarea">
-                        <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
                     </div>
                 </div>
           <h1>Text Area</h1>
