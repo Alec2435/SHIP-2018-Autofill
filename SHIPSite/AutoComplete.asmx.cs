@@ -159,7 +159,13 @@ namespace SHIPAutofill
                 cmd.Parameters.AddWithValue("@param" + (i + 10), taxLvls[2][i - 1]);
                 cmd.Parameters.AddWithValue("@param" + (i + 15), mainText[textLength - 6 + i]);
             }
-
+            if (taxValues[1] == "yes") {
+                int col = 0;
+            }
+            else
+            {
+                int col = 2;
+            }
             //Carefully tries to read the lines that the database returns 
             try
             {
@@ -171,7 +177,7 @@ namespace SHIPAutofill
                     string b = "";
                     try
                     {
-                        b = " " + reader.GetString(2);
+                        b = " " + reader.GetString(col);
                     }
                     catch (Exception ex)
                     {
