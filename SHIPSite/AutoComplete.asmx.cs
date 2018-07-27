@@ -34,18 +34,18 @@ namespace SHIPAutofill
             int number_of_levels = taxValues.Length - 1;
             // Further splits taxonomic levels into individual search terms
             string[][] taxLvls = new string[3][];
-            for(int i = 1; i < 4; i++)
+            for(int i = 2; i < 5; i++)
             {
                 if(i < taxValues.Length)
                 {
 
                     string[] temp = taxValues[i].Trim().Split(' ');
                     Array.Resize(ref temp, 5);
-                    taxLvls[i - 1] = temp;
+                    taxLvls[i - 2] = temp;
                 }
                 else
                 {
-                    taxLvls[i - 1] = new string[5];
+                    taxLvls[i - 2] = new string[5];
                 }
                 
             }
@@ -159,12 +159,13 @@ namespace SHIPAutofill
                 cmd.Parameters.AddWithValue("@param" + (i + 10), taxLvls[2][i - 1]);
                 cmd.Parameters.AddWithValue("@param" + (i + 15), mainText[textLength - 6 + i]);
             }
+            int col;
             if (taxValues[1] == "yes") {
-                int col = 0;
+                col = 0;
             }
             else
             {
-                int col = 2;
+                col = 2;
             }
             //Carefully tries to read the lines that the database returns 
             try
