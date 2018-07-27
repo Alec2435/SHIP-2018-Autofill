@@ -113,20 +113,21 @@
      //   }, false);
         var taxValues = [];
         var lastSnippet = "";
-        function autoCompleteEx_ItemSelected(sender, args) {
-            if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) {
+        function autoCompleteEx_ItemSelected(sender, args) { // Called whenever an autofill option is chosen
+            if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) { // Adds autofill to text box without taxonomy
                 var n1 = document.getElementById('MainContent_SearchText');
                 var n2 = document.getElementById('MainContent_TextBox1');
 
                 n2.value = n2.value + n1.value;
                 n1.value = "";
-            } else {
+            } else { // Adds autofill to taxonomy levels
                 taxValues.push(document.getElementById('MainContent_SearchText').value);
                 SetContextKey();
-                if (taxValues.length >= 3) {
+                if (taxValues.length >= 3) { // caps taxonomy levels at 3
                     document.getElementById('MainContent_TaxonomyCheckbox').checked = false;
                     document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
                 }
+                // Sets styling for taxonomy boxes, adds to page
                 var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
                 $('#MainContent_ddldb').before(alertBoxLast);
                 for (var i = taxValues.length - 2; i >= 0; i--) {
@@ -146,6 +147,7 @@
             taxValues = [];
         }
         function updateAlerts() {
+            // Called to remove a taxonomy level
             document.getElementById('MainContent_TaxonomyCheckbox').disabled = false;
             document.getElementById('tax' + (taxValues.length - 1)).parentNode.removeChild(document.getElementById('tax' + (taxValues.length - 1)));
             taxValues.pop();
