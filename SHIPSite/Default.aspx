@@ -189,7 +189,7 @@
         $(document).ready(function() {
    
     $("#<%= SearchText.ClientID %>").bind("keydown", function(e) {
-        if (e.keyCode==13){
+        if (e.keyCode==13 && $(#<%= SearchText.ClientID %>).val() != ""){
             autoCompleteEx_ItemSelected(null, null)
             return false;
         }
