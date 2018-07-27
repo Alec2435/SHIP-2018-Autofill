@@ -21,7 +21,6 @@ namespace SHIPAutofill
         {
 
             DataTable dbs = new DataTable();
-            System.Diagnostics.Debug.WriteLine("Code is really hard mkayy");
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SHIPServer"].ToString()))
             {
 

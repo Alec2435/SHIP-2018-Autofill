@@ -101,10 +101,12 @@ textarea {
 
     .material-checkbox > input:disabled {
         opacity: 0;
+        border-color: red;
     }
 
         .material-checkbox > input:disabled + span {
             cursor: initial;
+            border-color: red;
         }
 
     .material-checkbox > span::before {
@@ -134,7 +136,7 @@ textarea {
     }
 
     .material-checkbox > input:disabled + span::before {
-        border-color: rgba(0, 0, 0, 0.26);
+        border-color: red;
     }
 
     .material-checkbox > input:checked:disabled + span::before {
