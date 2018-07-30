@@ -160,7 +160,7 @@ namespace SHIPAutofill
                 cmd.Parameters.AddWithValue("@param" + (i + 15), mainText[textLength - 6 + i]);
             }
             int col;
-            if (taxValues[1] == "yes") {
+            if (taxValues[1] == "True") {
                 col = 0;
             }
             else

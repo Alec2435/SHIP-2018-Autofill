@@ -2,7 +2,7 @@
 <%@ Register Assembly="AjaxControlToolkit"  Namespace="AjaxControlToolkit" TagPrefix="ajaxTookit" %>
 <asp:Content ID="Content1" runat="server" contentplaceholderid="MainContent">
  <style>
-        .padding {padding:.5em; font-family:HelvLight; font-size:18px; width:500px;min-width:400px;}
+        .padding {padding:.5em; font-family:HelvLight; font-size:18px; width:500px;min-width:400px;outline: none; border-top-right-radius: 0px !important; border-bottom-right-radius: 0px !important;}
         .padding:focus{ outline: none;}
         .SubmitButton{min-width:65px;}
         .SubmitButton:focus{outline: none;}
@@ -65,10 +65,8 @@
         <h1>Autofill Box</h1>
             <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true">
                 </asp:DropDownList>
-                    <div style="float:right; margin-right: 5vw; padding-top: 10px;" class="checkarea">
-                        <asp:Button ID="LastSnippetButton" runat="server" type="button" Font-Italic="True" Font-Size="XX-Small" OnClientClick="addLastSnippet();return false;" autopostback ="false" xmlns:asp="#unknown" Text="Add Last Snippet as Taxonomy" />
-                        <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
-                    </div>
+                 <asp:Button ID="LastSnippetButton" runat="server" type="button" class="btn btn-default" Font-Size="Small" OnClientClick="addLastSnippet();return false;" autopostback ="false" xmlns:asp="#unknown" Text="Add Last Snippet as Taxonomy" style="margin-left:1em;" />
+
 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
                     <div style="float:left;">
@@ -91,6 +89,9 @@
                             OnClientPopulating="OnClientPopulating"
                             ShowOnlyCurrentWordInCompletionListItem="true" CompletionListItemCssClass="drop" CompletionListHighlightedItemCssClass="drop_highlight" >
                         </ajaxToolkit:AutoCompleteExtender>
+                    </div>
+                    <div class="checkarea" style="padding-top: .55em;">
+                        <asp:CheckBox ID="TaxonomyCheckbox" runat="server" OnCheckedChanged="CheckBox1_CheckedChanged" Text="Taxonomic Search" ToolTip="Add result as a taxonomic search term instead of adding it to the text box" />
                     </div>
                 </div>
           <h1>Text Area</h1>
@@ -224,13 +225,7 @@
 
         });    
         function SetContextKey() {
-            if (document.getElementById('MainContent_TaxonomyCheckbox').checked) {
-                var check = "yes";
-            }
-            else {
-                var check = "no";
-            }
-        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value+"*"+check+"*"+taxValues.join("*"));
+        $find('<%=autoComplete1.ClientID%>').set_contextKey($get("<%=ddldb.ClientID %>").value+"*"+document.getElementById('MainContent_TaxonomyCheckbox').checked+"*"+taxValues.join("*"));
     }
 
 
@@ -251,10 +246,10 @@
 <script type="text/javascript">
 function OnClientPopulating(sender, e) {
     $('#MainContent_SearchText').css('background', 'none');
-    sender._element.className = "loading";
+    sender._element.className += " loading";
 }
 function OnClientCompleted(sender, e) {
-    sender._element.className = "";
+    sender._element.className = "padding";
 }
 </script>
 
