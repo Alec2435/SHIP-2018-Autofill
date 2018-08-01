@@ -32,6 +32,10 @@ namespace SHIPAutofill
             string[] taxValues = contextKey.Split('*');
             System.Diagnostics.Debug.WriteLine("taxValues: " + String.Join(" ",taxValues));
             int number_of_levels = taxValues.Length - 1;
+
+
+            //Note that tax vales element 1 (the second element) is not currently in use, it tells the service whether or not the user checked the taxonomy box with a yes or no string
+
             // Further splits taxonomic levels into individual search terms
             string[][] taxLvls = new string[3][];
             for(int i = 2; i < 5; i++)
@@ -160,13 +164,6 @@ namespace SHIPAutofill
                 cmd.Parameters.AddWithValue("@param" + (i + 15), mainText[textLength - 6 + i]);
             }
             int col;
-            if (taxValues[1] == "True") {
-                col = 0;
-            }
-            else
-            {
-                col = 2;
-            }
             //Carefully tries to read the lines that the database returns 
             try
             {
@@ -178,7 +175,7 @@ namespace SHIPAutofill
                     string b = "";
                     try
                     {
-                        b = " " + reader.GetString(col);
+                        b = " " + reader.GetString(0);
                     }
                     catch (Exception ex)
                     {

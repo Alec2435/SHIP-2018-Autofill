@@ -38,6 +38,9 @@
                 <asp:ScriptReference Name="WebFormsBundle" />
                 <%--Site Scripts--%>
             </Scripts>
+            <Services>
+                <asp:ServiceReference Path="~/term.asmx" />
+            </Services>
         </asp:ScriptManager>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

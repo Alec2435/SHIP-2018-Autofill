@@ -63,7 +63,7 @@
 
     <div ID="maindiv" aria-orientation="vertical" style="height: 60%; text-align: center; margin: 0 auto; clip: rect(auto, 0px, auto, auto);">
         <h1>Autofill Box</h1>
-            <asp:DropDownList ID="ddldb" runat="server" OnChange="$find('SearchText').set_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true">
+            <asp:DropDownList ID="ddldb" runat="server" OnChange="set_contextKeyset_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true">
                 </asp:DropDownList>
                  <asp:Button ID="LastSnippetButton" runat="server" type="button" class="btn btn-default" Font-Size="Small" OnClientClick="addLastSnippet();return false;" autopostback ="false" xmlns:asp="#unknown" Text="Add Last Snippet as Taxonomy" style="margin-left:1em;" />
 
@@ -114,14 +114,20 @@
      //   }, false);
         var taxValues = [];
         var lastSnippet = "";
+        var termFrom = ""
+         function OnSucceeded(result) {
+            var n2 = document.getElementById('MainContent_TextBox1');
+            console.log(result);
+            termFrom = result;
+            n2.value = n2.value + termFrom;
+        }   
         function autoCompleteEx_ItemSelected(sender, args) { // Called whenever an autofill option is chosen
             if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) { // Adds autofill to text box without taxonomy
                 var n1 = document.getElementById('MainContent_SearchText');
-                var n2 = document.getElementById('MainContent_TextBox1');
-
                 lastSnippet = n1.value;
-                n2.value = n2.value + n1.value;
+                var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 n1.value = "";
+
             } else { // Adds autofill to taxonomy levels
                 taxValues.push(document.getElementById('MainContent_SearchText').value);
                 SetContextKey();
@@ -252,6 +258,7 @@ function OnClientCompleted(sender, e) {
     sender._element.className = "padding";
 }
 </script>
+
 
 </asp:Content>
 

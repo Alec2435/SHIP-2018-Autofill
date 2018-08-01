@@ -305,6 +305,7 @@
     <Content Include="AutoComplete.asmx" />
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
     <Content Include="apiapp.json" />
+    <Content Include="term.asmx" />
     <Content Include="worldlist.txt" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
