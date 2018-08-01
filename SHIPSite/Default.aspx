@@ -129,6 +129,8 @@
                 n1.value = "";
 
             } else { // Adds autofill to taxonomy levels
+                var n1 = document.getElementById('MainContent_SearchText');
+                var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 taxValues.push(document.getElementById('MainContent_SearchText').value);
                 SetContextKey();
                 if (taxValues.length >= 3) { // caps taxonomy levels at 3

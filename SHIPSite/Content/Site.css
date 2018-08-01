@@ -169,3 +169,16 @@ textarea {
     background-repeat: no-repeat !important;
     background-size: 50px 50px !important;
 }
+.list-unstyled {
+    list-style-type: none;
+    line-height: 5pt;
+}
+    .list-unstyled li {
+        display: inline;
+    }
+    .footer p {
+        margin-bottom: 0.25rem;
+    }
+    .footer {
+        text-align:center;
+    }

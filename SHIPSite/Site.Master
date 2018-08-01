@@ -66,7 +66,26 @@
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %></p>
+            
+                <div class="footer">
+                
+                <!-- Copyright Information -->
+                <p>@Copyright <%: DateTime.Now.Year %> by the <a href="http://www.commerce.gov/" target="_blank" title="Click to U.S. Department of Commerce Website">U. S. Department of Commerce</a> on behalf of the United States of America. All rights reserved.</p>
+                <p>Distributed by the <a href="http://www.nist.gov/mml/odi/index.cfm" target="_blank" title="Click to NIST Office of Data Informatics Website">Office of Data Informatics</a> of Material Measurement Laboratory (<a href="http://www.nist.gov/mml/" target="_blank" title="Click to Material Measurement Lab. Website">MML</a>) at the National Institute of Standards and Technology (<a href="http://www.nist.gov/" target="_blank" title="Click to NIST Website">NIST</a>).</p>
+                <p>NIST is an agency of the U.S. Department of Commerce</p>
+                <ul class="list-unstyled">
+                    <li><a href="http://www.nist.gov/public_affairs/privacy.cfm" target="_blank">Privacy Policy/Security/Notice/Accessibility Statement</a></li> | 
+                    <li><a href="http://www.nist.gov/public_affairs/disclaimer.cfm" target="_blank">NIST Disclaimer</a></li> | 
+                    <li><a href="http://www.nist.gov/director/foia/" target="_blank">Freedom of Information Act (FOIA)</a></li>
+                </ul>
+                <ul class="list-unstyled">
+                    <li><a href="http://www.nist.gov/srd" target="_blank">SRD Program</a></li> | 
+                    <li><a href="http://www.nist.gov/srd/upload/SRDAct-2.pdf" target="_blank">Standard Reference Data (SRD) Act</a></li> | 
+                    <li><a href="https://tsapps.nist.gov/MSDSurvey/default.aspx?ID=5&amp;DB=155" target="_blank">Rate Our Products</a></li>
+                </ul>
+                <p>Developed by: T.N. Bhat, Jonah Tash, Alexander Velikanov, and Alexander Wu</p>
+                <p>Date created: June 30 2018 | Last updated: <%:System.IO.File.GetLastWriteTime(Server.MapPath("Default.aspx")).Date.ToString("MMMM dd yyyy") %> | Contact: data@nist.gov</p>
+            </div>
             </footer>
         </div>
     </form>

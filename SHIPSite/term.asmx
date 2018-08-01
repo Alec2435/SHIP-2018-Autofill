@@ -46,6 +46,7 @@ public class term : System.Web.Services.WebService
             }
             catch (Exception ex)
             {
+                response = finalTerm;
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
 
