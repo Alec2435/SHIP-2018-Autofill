@@ -119,7 +119,7 @@
             var n2 = document.getElementById('MainContent_TextBox1');
             console.log(result);
             termFrom = result;
-            n2.value = n2.value + termFrom;
+            n2.value = n2.value + " " + termFrom;
         }   
         function autoCompleteEx_ItemSelected(sender, args) { // Called whenever an autofill option is chosen
             if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) { // Adds autofill to text box without taxonomy
