@@ -175,19 +175,20 @@
         }
 
         function addLastSnippet() {
-            console.log("added" + lastSnippet)
-            taxValues.push(lastSnippet);
-            SetContextKey();
-            if (taxValues.length >= 3) { // caps taxonomy levels at 3
-                document.getElementById('MainContent_TaxonomyCheckbox').checked = false;
-                document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
-                document.getElementById('MainContent_LastSnippetButton').disabled = true;
-            }
-            // Sets styling for taxonomy boxes, adds to page
-            var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
-            $('#MainContent_ddldb').before(alertBoxLast);
-            for (var i = taxValues.length - 2; i >= 0; i--) {
-                document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
+            if(!(taxValues.indexOf(lastSnippet) > -1)){
+                taxValues.push(lastSnippet);
+                SetContextKey();
+                if (taxValues.length >= 3) { // caps taxonomy levels at 3
+                    document.getElementById('MainContent_TaxonomyCheckbox').checked = false;
+                    document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
+                    document.getElementById('MainContent_LastSnippetButton').disabled = true;
+                }
+                // Sets styling for taxonomy boxes, adds to page
+                var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
+                $('#MainContent_ddldb').before(alertBoxLast);
+                for (var i = taxValues.length - 2; i >= 0; i--) {
+                    document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
+                }
             }
             
         }
