@@ -138,14 +138,15 @@
                         document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
                         document.getElementById('MainContent_LastSnippetButton').disabled = true;
                     }
-                    var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
+                    // Adds styling for boxes
+                    var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value.trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
                     $('#MainContent_ddldb').before(alertBoxLast);
                     for (var i = taxValues.length - 2; i >= 0; i--) {
-                        document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
+                        document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0,5).join(" ") + "</div>";
                     }
 
                 }
-                // Sets styling for taxonomy boxes, adds to page
+                
                 document.getElementById('MainContent_SearchText').value = "";
 
             }
@@ -171,7 +172,7 @@
             if (taxValues.length < 1) {
                 return;
             }
-            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length-1] + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
+            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length-1].trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
         }
 
         function addLastSnippet() {
@@ -184,10 +185,10 @@
                     document.getElementById('MainContent_LastSnippetButton').disabled = true;
                 }
                 // Sets styling for taxonomy boxes, adds to page
-                var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
+                var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet.trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
                 $('#MainContent_ddldb').before(alertBoxLast);
                 for (var i = taxValues.length - 2; i >= 0; i--) {
-                    document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
+                    document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0,5).join(" ") + "</div>";
                 }
             }
             
