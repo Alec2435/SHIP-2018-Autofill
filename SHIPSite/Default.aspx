@@ -117,7 +117,6 @@
         var termFrom = ""
          function OnSucceeded(result) {
             var n2 = document.getElementById('MainContent_TextBox1');
-            console.log(result);
             termFrom = result;
             n2.value = n2.value + " " + termFrom;
         }   
@@ -131,19 +130,22 @@
             } else { // Adds autofill to taxonomy levels
                 var n1 = document.getElementById('MainContent_SearchText');
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
-                taxValues.push(document.getElementById('MainContent_SearchText').value);
-                SetContextKey();
-                if (taxValues.length >= 3) { // caps taxonomy levels at 3
-                    document.getElementById('MainContent_TaxonomyCheckbox').checked = false;
-                    document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
-                    document.getElementById('MainContent_LastSnippetButton').disabled = true;
+                if(!(taxValues.indexOf(document.getElementById('MainContent_SearchText').value) > -1)){
+                    taxValues.push(document.getElementById('MainContent_SearchText').value);
+                    SetContextKey();
+                    if (taxValues.length >= 3) { // caps taxonomy levels at 3
+                        document.getElementById('MainContent_TaxonomyCheckbox').checked = false;
+                        document.getElementById('MainContent_TaxonomyCheckbox').disabled = true;
+                        document.getElementById('MainContent_LastSnippetButton').disabled = true;
+                    }
+                    var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
+                    $('#MainContent_ddldb').before(alertBoxLast);
+                    for (var i = taxValues.length - 2; i >= 0; i--) {
+                        document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
+                    }
+
                 }
                 // Sets styling for taxonomy boxes, adds to page
-                var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
-                $('#MainContent_ddldb').before(alertBoxLast);
-                for (var i = taxValues.length - 2; i >= 0; i--) {
-                    document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i] + "</div>";
-                }
                 document.getElementById('MainContent_SearchText').value = "";
 
             }
