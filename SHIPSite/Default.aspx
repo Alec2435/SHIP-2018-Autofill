@@ -72,7 +72,7 @@
 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
                     <div style="float:left;">
-                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpell:SpellTextBox>
+                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" HandleKeyEvents="True" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpell:SpellTextBox>
                         <ajaxToolkit:AutoCompleteExtender 
                             runat="server" 
                             ID="autoComplete1" 
@@ -230,12 +230,21 @@
     <script type = "text/javascript">
         $(document).ready(function() {
    
-    $("#<%= SearchText.ClientID %>").bind("keydown", function(e) {
+        var elem = document.getElementById('<%= SearchText.ClientID %>');
+        elem.parentElement.addEventListener("keydown", function (e) {
+        if(!e.keyCode){
+            return false;
+            
+        }
+
         if (e.keyCode==13 && $("#<%= SearchText.ClientID %>").val() != ""){
             autoCompleteEx_ItemSelected(null, null)
-            return false;
-        }
-    });
+            elem.value="";
+            e.stopPropagation();
+            e.preventDefault();
+            }
+
+        });
 
         });    
         function SetContextKey() {

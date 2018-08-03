@@ -8,10 +8,13 @@
 <body> 
     <form id="form1" runat="server"> 
     <div> 
-        <ASPNetSpell:SpellTextBox ID="SpellTextBox1" runat="server" >Hello Worldd. 
+        <ASPNetSpell:SpellTextBox ID="SpellTextBox1" runat="server">Hello Worldd. 
             </ASPNetSpell:SpellTextBox> 
         <ASPNetSpell:SpellButton ID="SpellButton1" runat="server" /> 
     </div> 
-    </form> 
+    </form>
 </body> 
 </html>
+<script type="text/javascript">
+    document.getElementById("SpellTextBox1").parentElement.addEventListener("keydown", function (e) { console.log(e.keyCode); });
+</script>
