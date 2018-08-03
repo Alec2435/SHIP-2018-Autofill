@@ -1,4 +1,6 @@
 ﻿<%@ Page Title="NIST Autofill"Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="SHIPAutofill.CompletionPage" MasterPageFile="~/Site.Master" %>
+
+<%@ Register Assembly="ASPNetSpell" Namespace="ASPNetSpell" TagPrefix="ASPNetSpell" %>
 <%@ Register Assembly="AjaxControlToolkit"  Namespace="AjaxControlToolkit" TagPrefix="ajaxTookit" %>
 <asp:Content ID="Content1" runat="server" contentplaceholderid="MainContent">
  <style>
@@ -70,8 +72,7 @@
 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
                     <div style="float:left;">
-
-                        <ASPNetSpellInclude.SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpellInclude.SpellTextBox>
+                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpell:SpellTextBox>
                         <ajaxToolkit:AutoCompleteExtender 
                             runat="server" 
                             ID="autoComplete1" 

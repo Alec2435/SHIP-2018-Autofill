@@ -37,7 +37,7 @@ namespace SHIPAutofill {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl SearchText;
+        protected global::ASPNetSpell.SpellTextBox SearchText;
         
         /// <summary>
         /// autoComplete1 control.
