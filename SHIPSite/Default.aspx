@@ -70,7 +70,8 @@
 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
                     <div style="float:left;">
-                        <asp:TextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></asp:TextBox>
+
+                        <ASPNetSpellInclude.SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpellInclude.SpellTextBox>
                         <ajaxToolkit:AutoCompleteExtender 
                             runat="server" 
                             ID="autoComplete1" 
