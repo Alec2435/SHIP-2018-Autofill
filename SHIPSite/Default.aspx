@@ -118,7 +118,6 @@
         var taxValues = [];
         var lastSnippet = "";
         var termFrom = "";
-        var taxLevelCount = 5; // Conveniently change the number of taxonomic levels to display (will need to modify other stuff to make it actually work)
         document.getElementById('spell_text_div').childNodes[1].style['padding']= "8px";
          function OnSucceeded(result) {
             var n2 = document.getElementById('MainContent_TextBox1');
@@ -127,13 +126,13 @@
         }   
         function autoCompleteEx_ItemSelected(sender, args) { // Called whenever an autofill option is chosen
             if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) { // Adds autofill to text box without taxonomy
-                var n1 = document.getElementById('<%= SearchText.ClientID %>');
+                var n1 = document.getElementById('MainContent_SearchText');
                 lastSnippet = n1.value;
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 n1.value = "";
 
             } else { // Adds autofill to taxonomy levels
-                var n1 = document.getElementById('<%= SearchText.ClientID %>');
+                var n1 = document.getElementById('MainContent_SearchText');
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 if(!(taxValues.indexOf(document.getElementById('MainContent_SearchText').value) > -1)){
                     taxValues.push(document.getElementById('MainContent_SearchText').value);
@@ -144,15 +143,15 @@
                         document.getElementById('MainContent_LastSnippetButton').disabled = true;
                     }
                     // Adds styling for boxes
-                    var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value.trim().split(" ").slice(0, taxLevelCount).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
+                    var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value.trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
                     $('#MainContent_ddldb').before(alertBoxLast);
                     for (var i = taxValues.length - 2; i >= 0; i--) {
-                        document.getElementById('tax' + i).outerHTML = "<div id='tax" + i + "' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0, taxLevelCount).join(" ") + "</div>";
+                        document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0,5).join(" ") + "</div>";
                     }
 
                 }
                 
-                document.getElementById('<%= SearchText.ClientID %>').value = "";
+                document.getElementById('MainContent_SearchText').value = "";
 
             }
              
@@ -177,11 +176,11 @@
             if (taxValues.length < 1) {
                 return;
             }
-            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length - 1].trim().split(" ").slice(0, taxLevelCount).join(" ") + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
+            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length-1].trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
         }
 
         function addLastSnippet() {
-            if(!(taxValues.indexOf(lastSnippet) > -1) && lastSnippet != ""){
+            if(!(taxValues.indexOf(lastSnippet) > -1)){
                 taxValues.push(lastSnippet);
                 SetContextKey();
                 if (taxValues.length >= 3) { // caps taxonomy levels at 3
@@ -193,7 +192,7 @@
                 var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet.trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
                 $('#MainContent_ddldb').before(alertBoxLast);
                 for (var i = taxValues.length - 2; i >= 0; i--) {
-                    document.getElementById('tax' + i).outerHTML = "<div id='tax" + i + "' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0, taxLevelCount).join(" ") + "</div>";
+                    document.getElementById('tax' + i).outerHTML = "<div id='tax"+ i+"' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0,5).join(" ") + "</div>";
                 }
             }
             
@@ -231,20 +230,17 @@
 });
     </script>
     <script type = "text/javascript">
-        document.addEventListener("DOMContentLoaded",function() {
+        $(document).ready(function() {
         var elem = document.getElementById('<%= SearchText.ClientID %>');
-        elem.parentElement.addEventListener("keydown", function (e) {
-            if(!e.keyCode){
-                return false;
+        addEventListener("keydown", function (e) {
+        if(!e.keyCode){
+            return false;
             
-            }
+        }
 
-            if (e.keyCode == 13) {
-                if ($("#<%= SearchText.ClientID %>").val().trim() != "") {
-                    autoCompleteEx_ItemSelected(null, null);
-                    document.getElementById('spell_text_div').childNodes[2].value= "";
-                    $( "#MainContent_SearchText___livespell_proxy" ).empty();
-                }
+        if (e.keyCode==13 && $("#<%= SearchText.ClientID %>").val() != ""){
+            autoCompleteEx_ItemSelected(null, null)
+            elem.value="";
             e.stopPropagation();
             e.preventDefault();
             }
