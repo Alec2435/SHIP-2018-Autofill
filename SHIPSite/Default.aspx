@@ -60,6 +60,7 @@
         margin-bottom:10px;
     }
 
+
     </style>
 
 
@@ -71,8 +72,8 @@
 
 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
-                    <div style="float:left;">
-                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" HandleKeyEvents="True" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpell:SpellTextBox>
+                    <div id='spell_text_div' style="float:left;">
+                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" HandleKeyEvents="False" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..." Wrap="True"></ASPNetSpell:SpellTextBox>
                         <ajaxToolkit:AutoCompleteExtender 
                             runat="server" 
                             ID="autoComplete1" 
@@ -116,7 +117,8 @@
      //   }, false);
         var taxValues = [];
         var lastSnippet = "";
-        var termFrom = ""
+        var termFrom = "";
+        document.getElementById('spell_text_div').childNodes[1].style['padding']= "8px";
          function OnSucceeded(result) {
             var n2 = document.getElementById('MainContent_TextBox1');
             termFrom = result;
@@ -229,9 +231,8 @@
     </script>
     <script type = "text/javascript">
         $(document).ready(function() {
-   
         var elem = document.getElementById('<%= SearchText.ClientID %>');
-        elem.parentElement.addEventListener("keydown", function (e) {
+        addEventListener("keydown", function (e) {
         if(!e.keyCode){
             return false;
             
