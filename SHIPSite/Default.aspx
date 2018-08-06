@@ -126,13 +126,13 @@
         }   
         function autoCompleteEx_ItemSelected(sender, args) { // Called whenever an autofill option is chosen
             if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) { // Adds autofill to text box without taxonomy
-                var n1 = document.getElementById('MainContent_SearchText');
+                var n1 = document.getElementById('<%= SearchText.ClientID %>');
                 lastSnippet = n1.value;
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 n1.value = "";
 
             } else { // Adds autofill to taxonomy levels
-                var n1 = document.getElementById('MainContent_SearchText');
+                var n1 = document.getElementById('<%= SearchText.ClientID %>');
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 if(!(taxValues.indexOf(document.getElementById('MainContent_SearchText').value) > -1)){
                     taxValues.push(document.getElementById('MainContent_SearchText').value);
@@ -151,7 +151,7 @@
 
                 }
                 
-                document.getElementById('MainContent_SearchText').value = "";
+                document.getElementById('<%= SearchText.ClientID %>').value = "";
 
             }
              
@@ -230,17 +230,18 @@
 });
     </script>
     <script type = "text/javascript">
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded",function() {
         var elem = document.getElementById('<%= SearchText.ClientID %>');
-        addEventListener("keydown", function (e) {
+        elem.parentElement.addEventListener("keydown", function (e) {
         if(!e.keyCode){
             return false;
             
         }
 
         if (e.keyCode==13 && $("#<%= SearchText.ClientID %>").val() != ""){
-            autoCompleteEx_ItemSelected(null, null)
-            elem.value="";
+            autoCompleteEx_ItemSelected(null, null);
+            document.getElementById('spell_text_div').childNodes[2].value= "";
+            $( "#MainContent_SearchText___livespell_proxy" ).empty();
             e.stopPropagation();
             e.preventDefault();
             }
