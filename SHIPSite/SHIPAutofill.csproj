@@ -351,8 +351,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="ASPNetSpellInclude\core\default.ashx" />
     <Content Include="ASPNetSpellInclude\debugging-test-scripts\Test-Instalation.ashx" />
-    <Content Include="ASPNetSpellInclude\dictionaries\English %28International%29.dic" />
     <Content Include="ASPNetSpellInclude\web.config" />
+    <Content Include="ASPNetSpellInclude\dictionaries\English %28Scientific%29.dic" />
     <None Include="Content\Site.scss" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\spin.gif" />
