@@ -273,11 +273,11 @@
 </script>
 <script type="text/javascript">
 function OnClientPopulating(sender, e) {
-    $('#MainContent_SearchText').css('background', 'none');
-    sender._element.className += " loading";
+    $('#MainContent_SearchText___livespell_proxy').css('background', 'none');
+     $('#MainContent_SearchText___livespell_proxy').addClass("loading");
 }
 function OnClientCompleted(sender, e) {
-    sender._element.className = "padding";
+    $('#MainContent_SearchText___livespell_proxy').removeClass("loading");
 }
 </script>
 
