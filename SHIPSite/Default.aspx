@@ -259,11 +259,11 @@
 </script>
 <script type="text/javascript">
 function OnClientPopulating(sender, e) {
-    $('#MainContent_SearchText').css('background', 'none');
-    sender._element.className += " loading";
+    $('#MainContent_SearchText').parent().css('background', 'none');
+    $('#MainContent_SearchText').parent().addClass("loading");
 }
 function OnClientCompleted(sender, e) {
-    sender._element.className = "padding";
+    $('#MainContent_SearchText').parent().removeClass("loading");
 }
 </script>
 
