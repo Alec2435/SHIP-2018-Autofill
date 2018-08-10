@@ -5,7 +5,7 @@
     <div class="jumbotron">
         <p class="lead">Get the txt file for the necessary database dictionary.</p>
     <asp:DropDownList ID="ddldb" runat="server" OnChange="set_contextKeyset_contextKey(this.value);" CssClass="mydropdownlist" AppendDataBoundItems="true"></asp:DropDownList>
-<asp:Button runat="server" ID="Button1" class="btn btn-primary btn-lg" Text="Test"  OnClick="UploadButton_Click" />
+<asp:Button runat="server" ID="Button1" class="btn btn-primary btn-lg" Text="Download"  OnClick="UploadButton_Click" />
     </div>
  
 
