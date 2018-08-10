@@ -60,6 +60,7 @@
         margin-bottom:10px;
     }
 
+
     </style>
 
 
@@ -71,8 +72,8 @@
 
 
                 <div style="position: relative; top: 50%; display:inline-flex; display: block; padding-bottom: 20vh;">
-                    <div style="float:left;">
-                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" HandleKeyEvents="True" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..."></ASPNetSpell:SpellTextBox>
+                    <div id='spell_text_div' style="float:left;">
+                        <ASPNetSpell:SpellTextBox ID="SearchText" runat="server" spellcheck="true" TextMode="MultiLine" CssClass="padding" HandleKeyEvents="False" AutoPostback="False" Style ="display: inline; box-sizing:border-box; height: 2.7em; width: 69vw; background: none;" backcolor="red" onkeyup = "SetContextKey()" placeholder="Type and the system will suggest..." Wrap="True"></ASPNetSpell:SpellTextBox>
                         <ajaxToolkit:AutoCompleteExtender 
                             runat="server" 
                             ID="autoComplete1" 
@@ -117,22 +118,22 @@
         var taxValues = [];
         var lastSnippet = "";
         var termFrom = "";
-        
-        var taxTermsCount = 5; // # of terms to display and consider in taxonomic search
-        function OnSucceeded(result) {
+        var taxLevelCount = 5; // Conveniently change the number of taxonomic levels to display (will need to modify other stuff to make it actually work)
+        document.getElementById('spell_text_div').childNodes[1].style['padding']= "8px";
+         function OnSucceeded(result) {
             var n2 = document.getElementById('MainContent_TextBox1');
             termFrom = result;
             n2.value = n2.value + " " + termFrom;
         }   
         function autoCompleteEx_ItemSelected(sender, args) { // Called whenever an autofill option is chosen
             if (!document.getElementById('MainContent_TaxonomyCheckbox').checked) { // Adds autofill to text box without taxonomy
-                var n1 = document.getElementById('MainContent_SearchText');
+                var n1 = document.getElementById('<%= SearchText.ClientID %>');
                 lastSnippet = n1.value;
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 n1.value = "";
 
             } else { // Adds autofill to taxonomy levels
-                var n1 = document.getElementById('MainContent_SearchText');
+                var n1 = document.getElementById('<%= SearchText.ClientID %>');
                 var use = term.getTerm(n1.value, $get("<%=ddldb.ClientID %>").value, OnSucceeded);
                 if(!(taxValues.indexOf(document.getElementById('MainContent_SearchText').value) > -1)){
                     taxValues.push(document.getElementById('MainContent_SearchText').value);
@@ -143,15 +144,15 @@
                         document.getElementById('MainContent_LastSnippetButton').disabled = true;
                     }
                     // Adds styling for boxes
-                    var alertBoxLast = "<div id='tax" +(taxValues.length-1)+ "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value.trim().split(" ").slice(0,taxTermsCount).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='"+(taxValues.length-1)+"-btn'>Close all</button></div>";
+                    var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + document.getElementById('MainContent_SearchText').value.trim().split(" ").slice(0, taxLevelCount).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
                     $('#MainContent_ddldb').before(alertBoxLast);
                     for (var i = taxValues.length - 2; i >= 0; i--) {
-                        document.getElementById('tax' + i).outerHTML = "<div id='tax" + i + "' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0, taxTermsCount).join(" ") + "</div>";
+                        document.getElementById('tax' + i).outerHTML = "<div id='tax" + i + "' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0, taxLevelCount).join(" ") + "</div>";
                     }
 
                 }
                 
-                document.getElementById('MainContent_SearchText').value = "";
+                document.getElementById('<%= SearchText.ClientID %>').value = "";
 
             }
              
@@ -176,11 +177,11 @@
             if (taxValues.length < 1) {
                 return;
             }
-            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length - 1].trim().split(" ").slice(0, taxTermsCount).join(" ") + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
+            document.getElementById('tax' + (taxValues.length - 1)).outerHTML = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span><strong>Taxonomy:</strong> " + taxValues[taxValues.length - 1].trim().split(" ").slice(0, taxLevelCount).join(" ") + "<button type=\"button\" onclick=closeAllAlerts() class=\"btn btn-default closeall\" id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
         }
 
         function addLastSnippet() {
-            if(!(taxValues.indexOf(lastSnippet) > -1)){
+            if(!(taxValues.indexOf(lastSnippet) > -1) && lastSnippet != ""){
                 taxValues.push(lastSnippet);
                 SetContextKey();
                 if (taxValues.length >= 3) { // caps taxonomy levels at 3
@@ -189,10 +190,10 @@
                     document.getElementById('MainContent_LastSnippetButton').disabled = true;
                 }
                 // Sets styling for taxonomy boxes, adds to page
-                var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet.trim().split(" ").slice(0, taxTermsCount).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
+                var alertBoxLast = "<div id='tax" + (taxValues.length - 1) + "' class=\"alert\"><span class=\"closebtn\" onclick=updateAlerts()>&times;</span> <strong>Taxonomy:</strong> " + lastSnippet.trim().split(" ").slice(0,5).join(" ") + "<button type=\"button\" class=\"btn btn-default closeall\" onclick=closeAllAlerts() id='" + (taxValues.length - 1) + "-btn'>Close all</button></div>";
                 $('#MainContent_ddldb').before(alertBoxLast);
                 for (var i = taxValues.length - 2; i >= 0; i--) {
-                    document.getElementById('tax' + i).outerHTML = "<div id='tax" + i + "' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0, taxTermsCount).join(" ") + "</div>";
+                    document.getElementById('tax' + i).outerHTML = "<div id='tax" + i + "' class=\"alert\"><strong>Taxonomy:</strong> " + taxValues[i].trim().split(" ").slice(0, taxLevelCount).join(" ") + "</div>";
                 }
             }
             
@@ -230,18 +231,20 @@
 });
     </script>
     <script type = "text/javascript">
-        $(document).ready(function() {
-   
+        document.addEventListener("DOMContentLoaded",function() {
         var elem = document.getElementById('<%= SearchText.ClientID %>');
         elem.parentElement.addEventListener("keydown", function (e) {
-        if(!e.keyCode){
-            return false;
+            if(!e.keyCode){
+                return false;
             
-        }
+            }
 
-        if (e.keyCode==13 && $("#<%= SearchText.ClientID %>").val() != ""){
-            autoCompleteEx_ItemSelected(null, null)
-            elem.value="";
+            if (e.keyCode == 13) {
+                if ($("#<%= SearchText.ClientID %>").val().trim() != "") {
+                    autoCompleteEx_ItemSelected(null, null);
+                    document.getElementById('spell_text_div').childNodes[2].value= "";
+                    $( "#MainContent_SearchText___livespell_proxy" ).empty();
+                }
             e.stopPropagation();
             e.preventDefault();
             }
@@ -270,11 +273,11 @@
 </script>
 <script type="text/javascript">
 function OnClientPopulating(sender, e) {
-    $('#MainContent_SearchText').parent().css('background', 'none');
-    $('#MainContent_SearchText').parent().addClass("loading");
+    $('#MainContent_SearchText').css('background', 'none');
+    sender._element.className += " loading";
 }
 function OnClientCompleted(sender, e) {
-    $('#MainContent_SearchText').parent().removeClass("loading");
+    sender._element.className = "padding";
 }
 </script>
 
