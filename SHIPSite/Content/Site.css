@@ -182,3 +182,13 @@ textarea {
     .footer {
         text-align:center;
     }
+
+#MainContent_SearchText{
+    visibility:hidden;
+    display:block!important;
+    height:0em!important;
+
+}
+#MainContent_SearchText___livespell_proxy{
+    height:2.7em!important;
+}
